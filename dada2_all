@@ -1,0 +1,332 @@
+#Install Libraries
+if (!require("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+
+BiocManager::install("phyloseq")
+BiocManager::install("ALDEx2")
+BiocManager::install("metagMisc")
+
+
+install.packages('devtools')
+devtools::install_github('ggloor/CoDaSeq/CoDaSeq')
+install.packages("metagMisc")
+
+
+#Load Libraries
+library(dada2)
+library(ShortRead)
+library(ggplot2)
+library(phyloseq)
+library(vegan)
+library(knitr)
+library(ALDEx2)
+library(zCompositions)
+library(igraph)
+library(car)
+library(grDevices)
+library(propr)
+library(cowplot)
+library(dplyr)
+library(reshape2)
+library(tibble)
+library(exactRankTests)
+library(nlme)
+library(data.table)
+library(Rmisc)
+library(indicspecies)
+library(viridis)
+library(CoDaSeq)
+library(randomcoloR)
+library(metagMisc)
+
+writeLines(capture.output(sessionInfo()), "sessionInfo.txt")
+
+#Combine RDS files
+run1 <- readRDS("/blue/juliemeyer/acauvin/dendrogyra_run1/dendrogyra_run1_all/seqtab.rds") 
+run2 <- readRDS("/blue/juliemeyer/acauvin/dendrogyra_run2/dendrogyra_run2_all/seqtab.rds") 
+run3 <- readRDS("/blue/juliemeyer/acauvin/dendrogyra_run3/dendrogyra_run3_all/seqtab.rds") 
+
+st.all <- mergeSequenceTables(run1, run2, run3, repeats="sum") # You may get the message "Duplicated sample names detected in the sequence table row names." to let you know that there are duplicate names across samples - it is not an error, just a message. If you have run a sample on more than one sequencing run, the ASV counts will be added together.
+#Remove chimeric sequences:
+seqtab.nochim <- removeBimeraDenovo(st.all, method="consensus", multithread=TRUE, verbose=TRUE)
+dim(seqtab.nochim)
+sum(seqtab.nochim)/sum(st.all)
+# Combine read stats from 4 runs and add chimera summary - This does not combine duplicate rows from repeated samples.
+stat1 <- read.table("/blue/juliemeyer/acauvin/dendrogyra_run1/dada_read_stats1.txt",sep="\t",header=TRUE, row.names=1)
+stat2 <- read.table("/blue/juliemeyer/acauvin/dendrogyra_run2/dada_read_stats1.txt",sep="\t",header=TRUE, row.names=1)
+stat3 <- read.table("/blue/juliemeyer/acauvin/dendrogyra_run3/dendrogyra_run3_all/dada_read_stats1.txt",sep="\t",header=TRUE, row.names=1)
+
+stats.all<-bind_rows(stat1, stat2,stat3) 
+write.table(stats.all, "dada_read_stats_all.txt",sep="\t",col.names=NA)
+# Track reads through the pipeline
+# As a final check of our progress, we’ll look at the number of reads that made it through each step in the pipeline
+rowSums(seqtab.nochim)
+# need to write this out to add to dada read stats
+# SAVE the non-chimeric sequence variant table SO YOU DON'T HAVE TO REPEAT ALL OF THE ABOVE STEPS
+saveRDS(seqtab.nochim, file="~/blue/juliemeyer/acauvin/dendrogyra_run_all/dendrogyra_seqtab_all.rds")
+
+
+###Look at Read Stats file to figure out which samples had very few sequences
+dada_read_stats_all<- read.table("dada_read_stats_all.txt", sep="\t")
+colnames(dada_read_stats_all)<-(dada_read_stats_all[1,])
+dada_read_stats_all<- dada_read_stats_all[-1, ]
+
+
+###Assign Taxonomy
+## Assign taxonomy in DADA2
+
+
+taxa <- assignTaxonomy(seqtab.nochim, "/blue/juliemeyer/share/silva_nr99_v138.1_train_set.fa.gz", multithread=TRUE)
+# FIX the NAs in the taxa table
+taxon <- as.data.frame(taxa,stringsAsFactors=FALSE)
+taxon$Phylum[is.na(taxon$Phylum)] <- taxon$Kingdom[is.na(taxon$Phylum)]
+taxon$Class[is.na(taxon$Class)] <- taxon$Phylum[is.na(taxon$Class)]
+taxon$Order[is.na(taxon$Order)] <- taxon$Class[is.na(taxon$Order)]
+taxon$Family[is.na(taxon$Family)] <- taxon$Order[is.na(taxon$Family)]
+taxon$Genus[is.na(taxon$Genus)] <- taxon$Family[is.na(taxon$Genus)]
+write.table(taxon,"silva_taxa_table.txt",sep="\t",col.names=NA)
+write.table(seqtab.nochim, "silva_otu_table.txt",sep="\t",col.names=NA)
+# Create phyloseq object from otu and taxonomy tables from dada2, along with the sample metadata.
+otu <- read.table("silva_otu_table.txt",sep="\t",header=TRUE, row.names=1)
+taxon <- read.table("silva_taxa_table.txt",sep="\t",header=TRUE,row.names=1)
+samples<-read.table("metadata.txt",sep="\t",header=T,row.names=1)
+OTU = otu_table(otu, taxa_are_rows=FALSE)
+taxon<-as.matrix(taxon)
+TAX = tax_table(taxon)
+sampledata = sample_data(samples)
+ps <- phyloseq(otu_table(otu, taxa_are_rows=FALSE), 
+               sample_data(samples), 
+               tax_table(taxon))
+ps
+# remove chloroplasts and mitochondria and Eukaryota
+get_taxa_unique(ps, "Family") 
+get_taxa_unique(ps, "Order") 
+get_taxa_unique(ps, "Kingdom") 
+ps <- subset_taxa(ps, Family !="Mitochondria")
+ps <- subset_taxa(ps, Order !="Chloroplast")
+ps <- subset_taxa(ps, Kingdom !="Eukaryota")
+ps <- subset_taxa(ps, Kingdom !="NA")
+get_taxa_unique(ps, "Family") 
+get_taxa_unique(ps, "Order") 
+get_taxa_unique(ps, "Kingdom")
+ps #20179 taxa and 197 samples
+# Now export cleaned otu and taxa tables from phyloseq for future reference
+otu = as(otu_table(ps), "matrix")
+taxon = as(tax_table(ps), "matrix")
+metadata = as(sample_data(ps), "matrix")
+write.table(otu,"silva_nochloronomito_otu_table.txt",sep="\t",col.names=NA)
+write.table(taxon,"silva_nochloronomito_taxa_table.txt",sep="\t",col.names=NA)
+# export ASV table as relative abundance
+ps_ra<-transform_sample_counts(ps, function(OTU) OTU/sum(OTU))
+otu_ra = as(otu_table(ps_ra), "matrix")
+write.table(otu_ra,"silva_nochloronomito_otu_table_RA.txt",sep="\t",col.names=NA)
+
+# Create phyloseq object from otu and taxonomy tables without chloroplast and mitochondria
+otu <- read.table("silva_nochloronomito_otu_table.txt",sep="\t",header=TRUE, row.names=1)
+taxon <- read.table("silva_nochloronomito_taxa_table.txt",sep="\t",header=TRUE,row.names=1)
+samples<-read.table("metadata.txt",sep="\t",header=T,row.names=1)
+OTU = otu_table(otu, taxa_are_rows=FALSE)
+taxon<-as.matrix(taxon)
+TAX = tax_table(taxon)
+sampledata = sample_data(samples)
+ps <- phyloseq(otu_table(otu, taxa_are_rows=FALSE), 
+               sample_data(samples), 
+               tax_table(taxon))
+ps #7548 taxa and 172 samples
+get_taxa_unique(ps, "Order") #308
+get_taxa_unique(ps, "Class") #129
+ps5<-filter_taxa(ps, function(x) mean(x) >5, TRUE)
+ntaxa(ps5) #148
+ps10<-filter_taxa(ps, function(x) mean(x) >10, TRUE)
+ntaxa(ps10) #74
+get_taxa_unique(ps, "Genus") #1065
+get_taxa_unique(ps5, "Genus") #86
+get_taxa_unique(ps10, "Genus") #52
+
+# Now export filtered otu and taxa tables from phyloseq for future reference after removing sample blanks
+ps5 #148 taxa and 172 samples
+otu_ps5 = as(otu_table(ps5), "matrix")
+taxon_ps5 = as(tax_table(ps5), "matrix")
+metadata = as(sample_data(ps5), "matrix")
+write.table(otu_ps5,"silva_nochloronomito_otu_table_ps5.txt",sep="\t",col.names=NA)
+write.table(taxon_ps5,"silva_nochloronomito_taxa_table_ps5.txt",sep="\t",col.names=NA)
+write.table(metadata,"metadata_noblanks.txt",sep="\t",col.names=NA)
+ps5_ra<-transform_sample_counts(ps5, function(OTU) OTU/sum(OTU))
+otu_ps5_ra = as(otu_table(ps5_ra), "matrix")
+write.table(otu_ps5_ra,"silva_nochloronomito_otu_table_ps5_RA.txt",sep="\t",col.names=NA)
+
+ps10 #74 taxa and 172 samples
+otu_ps10 = as(otu_table(ps10), "matrix")
+taxon_ps10 = as(tax_table(ps10), "matrix")
+write.table(otu_ps10,"silva_nochloronomito_otu_table_ps10.txt",sep="\t",col.names=NA)
+write.table(taxon_ps10,"silva_nochloronomito_taxa_table_ps10.txt",sep="\t",col.names=NA)
+
+
+## Perform center-log-ratio transformation on ASVs and calculate Aitchison Distance and principal components
+
+# use an ASV table that has been filtered to remove low-abundance ASVs, no blanks
+otu <- read.table("silva_nochloronomito_otu_table_ps5.txt",sep="\t",header=TRUE, row.names=1)
+taxon <- read.table("silva_nochloronomito_taxa_table_ps5.txt",sep="\t",header=TRUE,row.names=1)
+samples<-read.table("metadata.txt",sep="\t",header=T,row.names=1)
+
+#Remove samples that have 0s across the board
+row_names_df_to_remove<- c("17837-515rcbc156","17818-515rcbc109","17797-515rcbc122")
+otu1<- otu[!(row.names(otu) %in% row_names_df_to_remove),]
+samples$row.names<- row.names(samples)
+samples<- samples[!(row.names(samples) %in% row_names_df_to_remove),]
+View(samples)
+View(samples1)
+
+# First, replace 0 values with an estimate (because normalization is taking log, can't have 0)
+# Also transposing here, need samples as rows
+d.czm <- cmultRepl(t(otu1), method="CZM", label=0)
+# Perform the center-log-ratio (CLR) transformation 
+d.clr <- codaSeq.clr(d.czm)
+# transpose matrix of CLR transformed data for ordination and dendrogram
+E.clr <- t(d.clr)
+# plot compositional PCA biplot (perform a singular value decomposition)
+d.pcx <- prcomp(E.clr)
+# calculate percent variance explained for the axis labels
+pc1 <- round(d.pcx$sdev[1]^2/sum(d.pcx$sdev^2),2)
+pc2 <- round(d.pcx$sdev[2]^2/sum(d.pcx$sdev^2),2)
+xlab <- paste("PC1: ", pc1, sep="")
+ylab <- paste("PC2: ", pc2, sep="")
+#biplot(d.pcx, cex=c(0.6,0.4), var.axes=F,scale=1, xlab=xlab, ylab=ylab)
+summary(d.pcx)
+str(d.pcx)
+screeplot(d.pcx)
+# replot PCA with ggplot2 (showing samples only)
+df_out <- as.data.frame(d.pcx$x)
+theme_set(theme_bw()+theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank()))
+
+pdf("PCA.pdf",bg = "white",width=8.5)
+p<-ggplot(df_out,aes(x=PC1,y=PC2,colour=samples$Reef))
+p<-p+geom_point(size=5)+
+  theme(axis.title = element_text(size=14))+
+  theme(axis.text=element_text(size=12))+
+  theme(legend.title = element_text(size=14))+
+  theme(legend.text = element_text(size=12))+
+  guides(fill = guide_legend(override.aes=list(shape=21)))
+p + labs(x=xlab, y=ylab, colour="Reef") + coord_fixed()
+dev.off()
+
+####### Use phyloseq/vegan to perform ANOSIM/PERMANOVA
+
+
+# set metadata as factors for anosim
+reef<-as.character(samples$Reef)
+
+
+# anosim between groups using Aitchison distance
+dist.clr <- dist(E.clr)
+ano.site <- anosim(dist.clr, reef, permutations=999)
+pdf("DCYL_Healthy_Location.pdf",width=8.5)
+plot(ano.site)
+dev.off()
+print(ano.site)
+
+### Beta Diversity Dispersions
+#calculate multivariate dispersions based on location
+mod <-betadisper(dist.clr, reef)
+#one way anova
+anova(mod)
+#boxplots
+pdf("DCYL_Healthy_Reef_mod.pdf",width=8.5)
+plot(mod)
+dev.off()
+pdf("DCYL_Healthy_Reef_mod_boxplot.pdf",width=8.5)
+boxplot(mod)
+dev.off()
+
+
+## Compute mean distance to centroid per location
+#this just prints values on the console
+tapply(mod$distances, reef, mean)
+## Same, but variance instead
+tapply(mod$distances, reef, var)
+
+
+#Get the distances to centroid from the model
+mod$distances
+dis <- mod$distances
+#melt
+dis.melt <- melt(dis)
+#move rownames to columns so we can merge the dispersion values and metadata
+dis.melt$Sample <- rownames(dis.melt)
+samples$Sample <- rownames(samples)
+#merge metadata and dispersion 
+dis.treat <- merge(samples, dis.melt)
+#rename column
+colnames(dis.treat)[7] <- "distance"
+
+
+#### Making bar charts using ps5 (low abundance filtered) with n samples (n taxa) 
+
+ps5
+ps_tr<-transform_sample_counts(ps5, function(OTU) OTU/sum(OTU))
+#figure out how many colors you need
+get_taxa_unique(ps_tr, "Order") #114
+get_taxa_unique(ps_tr, "Class") #33
+#you can make n any number of colors you want; with as much difference between the colors as possible (distinct colors)
+
+
+#Set your color palette. This palette is auto-generated colors
+n <- 33
+lgpalette <- distinctColorPalette(n)
+row_names<- samples$row.namesbv 
+samples<- samples[,1]
+samples<- as.data.frame(samples)
+row.names(samples)<- row.names
+colnames(samples)<- "Reef"
+
+pdf("BarChart_DCYL.pdf", width=10, height=8)
+p1=plot_bar(ps_tr, fill="Class")+
+  geom_bar(aes(fill=Class), stat="identity",position="stack") +
+  theme(strip.text=element_text(face="bold"))+
+  theme(axis.text.x=element_blank())+
+  scale_fill_manual(values=lgpalette)+
+  ggtitle("DCYL Class")+
+  theme(plot.title = element_text(face="italic"))+
+  theme(legend.position = "bottom") +
+  theme(axis.title.x = element_blank())+
+  facet_wrap( ~ Reef, scale="free")
+p1
+dev.off()
+
+#Set your color palette. This palette is auto-generated colors
+get_taxa_unique(ps_tr, "Family") #70
+n <- 70
+lgpalette2 <- distinctColorPalette(n)
+row_names<- samples$row.namesbv 
+samples<- samples[,1]
+samples<- as.data.frame(samples)
+row.names(samples)<- row.names
+colnames(samples)<- "Reef"
+
+pdf("BarChart_DCYL_Family.pdf", width=10, height=8)
+p2=plot_bar(ps_tr, fill="Family")+
+  geom_bar(aes(fill=Family), stat="identity",position="stack") +
+  theme(strip.text=element_text(face="bold"))+
+  theme(axis.text.x=element_blank())+
+  scale_fill_manual(values=lgpalette2)+
+  ggtitle("DCYL Family")+
+  theme(plot.title = element_text(face="italic"))+
+  theme(legend.position = "bottom") +
+  theme(axis.title.x = element_blank())+
+  facet_wrap( ~ Reef, scale="free")
+p2
+dev.off()
+
+##Plotting n most abundant taxa
+
+#Set color palette for publication colors 
+everglades <- c("#FCD46C", "#8CCED4", "#A9523D", "#5B5E45", "#C4744C", "#E9D9B9", "#8B9A7B", "#120C09", "#3A9F6F", "#F5A63E", "#5B7D59", "#32838D", "#DAA598")
+
+ps20<-prune_taxa(names(sort(taxa_sums(ps5ra_pruned),TRUE)[1:20]), ps5ra_pruned)
+pdf("BarChartAllSamples_Compare_50taxa.pdf",width=16, height=10)
+fifty=plot_bar(ps20, fill="Genus")
+fifty+geom_bar(aes(fill=Genus), stat="identity",position="stack")+
+  theme(strip.text=element_text(face="bold"))+ 
+  theme(axis.text.x = element_text( angle = 90))+
+  theme(legend.position = "bottom")
+dev.off()
