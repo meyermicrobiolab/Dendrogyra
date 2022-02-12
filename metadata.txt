@@ -1,0 +1,173 @@
+	Location	Reef
+16724	Curacao	Klein Curacao
+16725	Curacao	Klein Curacao
+16726	Curacao	Klein Curacao
+16727	Curacao	Klein Curacao
+16728	Curacao	Klein Curacao
+16729	Curacao	Klein Curacao
+16730	Curacao	Klein Curacao
+16731	Curacao	Klein Curacao
+16732	Curacao	Korredor (Water Factory)
+16733	Curacao	Korredor (Water Factory)
+16734	Curacao	Korredor (Water Factory)
+16735	Curacao	Playa Kalki
+16736	Curacao	Playa Kalki
+16737	Curacao	Playa Kalki
+16738	Curacao	Double Reef (HBH)
+16739	Curacao	Double Reef (HBH)
+16740	Curacao	Double Reef (HBH)
+16741	Curacao	Double Reef (HBH)
+16742	Curacao	Double Reef (HBH)
+16743	Curacao	Double Reef (HBH)
+16744	Curacao	Double Reef (HBH)
+16745	Curacao	Double Reef (HBH)
+16746	Curacao	Double Reef (HBH)
+16747	Curacao	Double Reef (HBH)
+16748	Curacao	Sea Aquarium
+16749	Curacao	Sea Aquarium
+16750	Curacao	Sea Aquarium
+16751	Curacao	Sea Aquarium
+16752	Curacao	Sea Aquarium
+16753	Curacao	Sea Aquarium
+16754	Curacao	Sea Aquarium
+16755	Curacao	Sea Aquarium
+16756	Curacao	Sea Aquarium
+16757	Curacao	Sea Aquarium
+16758	Curacao	Sea Aquarium
+16759	Curacao	Sea Aquarium
+16760	Curacao	Sea Aquarium
+16761	Curacao	Sea Aquarium
+16763	Curacao	Sea Aquarium
+16765	Curacao	Sea Aquarium
+16766	Curacao	Sea Aquarium
+16767	Curacao	Sea Aquarium
+16768	Curacao	Kleine Knip
+16769	Curacao	Kleine Knip
+16770	Curacao	Kleine Knip
+16771	Curacao	Kleine Knip
+16772	Curacao	Santa Martha Baai
+16773	Curacao	Santa Martha Baai
+16774	Curacao	Santa Martha Baai
+16775	Curacao	Santa Martha Baai
+16776	Curacao	Santa Martha Baai
+16777	Curacao	Santa Martha Baai
+16779	Curacao	Santa Martha Baai
+16780	Curacao	Santa Martha Baai
+16781	Curacao	Santa Martha Baai
+16782	Curacao	Spaanse Water (Spanish Water)
+16783	Curacao	Spaanse Water (Spanish Water)
+16784	Curacao	Spaanse Water (Spanish Water)
+16785	Curacao	Spaanse Water (Spanish Water)
+16786	Curacao	Spaanse Water (Spanish Water)
+16787	Curacao	Spaanse Water (Spanish Water)
+16788	Curacao	Spaanse Water (Spanish Water)
+16789	Curacao	Spaanse Water (Spanish Water)
+16790	Curacao	Spaanse Water (Spanish Water)
+16791	Curacao	Spaanse Water (Spanish Water)
+16792	Curacao	Spaanse Water (Spanish Water)
+16793	Curacao	Spaanse Water (Spanish Water)
+16794	Curacao	Spaanse Water (Spanish Water)
+16795	Curacao	Spaanse Water (Spanish Water)
+16797	Curacao	Spaanse Water (Spanish Water)
+16798	Curacao	Spaanse Water (Spanish Water)
+16799	Curacao	Spaanse Water (Spanish Water)
+16800	Curacao	Spaanse Water (Spanish Water)
+16801	Curacao	Spaanse Water (Spanish Water)
+16802	Curacao	Blauwbaai (Blue Bay)
+16803	Curacao	Blauwbaai (Blue Bay)
+16804	Curacao	Blauwbaai (Blue Bay)
+16807	Curacao	Blauwbaai (Blue Bay)
+16808	Curacao	Blauwbaai (Blue Bay)
+16809	Curacao	Blauwbaai (Blue Bay)
+16810	Curacao	Blauwbaai (Blue Bay)
+16811	Curacao	Blauwbaai (Blue Bay)
+16812	Curacao	Blauwbaai (Blue Bay)
+16815	Curacao	Blauwbaai (Blue Bay)
+16816	Curacao	Blauwbaai (Blue Bay)
+16817	Curacao	Blauwbaai (Blue Bay)
+16818	Curacao	Blauwbaai (Blue Bay)
+16819	Curacao	Blauwbaai (Blue Bay)
+16820	Curacao	Blauwbaai (Blue Bay)
+16821	Curacao	Blauwbaai (Blue Bay)
+16822	Curacao	Coral Estate (Habitat)
+16823	Curacao	Coral Estate (Habitat)
+16824	Curacao	Rif Sint Marie
+16826	Curacao	Rif Sint Marie
+16827	Curacao	Rif Sint Marie
+16828	Curacao	Rif Sint Marie
+17786	Curacao	Rif Sint Marie
+17787	Curacao	Rif Sint Marie
+17788	Curacao	Rif Sint Marie
+17789	Curacao	Rif Sint Marie
+17790	Curacao	Rif Sint Marie
+17791	Curacao	Rif Sint Marie
+17792	Curacao	Rif Sint Marie
+17793	Curacao	Rif Sint Marie
+17794	Curacao	Rif Sint Marie
+17795	Curacao	Rif Sint Marie
+17796	Curacao	Rif Sint Marie
+17797	Curacao	Rif Sint Marie
+17798	Curacao	Rif Sint Marie
+17799	Curacao	Rif Sint Marie
+17800	Curacao	Rif Sint Marie
+17801	Curacao	Watamula (Villa Westpunt)
+17802	Curacao	Watamula (Villa Westpunt)
+17803	Curacao	Watamula (Villa Westpunt)
+17804	Curacao	Watamula (Villa Westpunt)
+17805	Curacao	Watamula (Villa Westpunt)
+17806	Curacao	Watamula (Villa Westpunt)
+17807	Curacao	Watamula (Villa Westpunt)
+17809	Curacao	Watamula (Villa Westpunt)
+17810	Curacao	Watamula (Villa Westpunt)
+17811	Curacao	Watamula (Villa Westpunt)
+17812	Curacao	Watamula (Villa Westpunt)
+17813	Curacao	Watamula (Villa Westpunt)
+17814	Curacao	Watamula (Villa Westpunt)
+17815	Curacao	Watamula (Villa Westpunt)
+17816	Curacao	Watamula (Villa Westpunt)
+17818	Curacao	Watamula (Villa Westpunt)
+17819	Curacao	Watamula (Villa Westpunt)
+17820	Curacao	Watamula (Villa Westpunt)
+17821	Belize	Belize
+17822	Belize	Belize
+17823	Belize	Belize
+17824	Belize	Belize
+17825	Belize	Belize
+17826	Belize	Belize
+17827	Belize	Belize
+17828	Belize	Belize
+17829	Belize	Belize
+17830	Belize	Belize
+17831	Belize	Belize
+17832	Belize	Belize
+17833	Belize	Belize
+17834	Belize	Belize
+17835	Belize	Belize
+17836	Belize	Belize
+17837	Belize	Belize
+17838	Belize	Belize
+17839	Belize	Belize
+17840	Belize	Belize
+17841	Belize	Belize
+17842	Belize	Belize
+17843	Belize	Belize
+17844	Belize	Belize
+17845	Belize	Belize
+17846	Belize	Belize
+17847	Belize	Belize
+17848	Belize	Belize
+17849	Belize	Belize
+17850	Belize	Belize
+17851	Belize	Belize
+17852	Belize	Belize
+17853	Belize	Belize
+17854	Belize	Belize
+17855	Belize	Belize
+17856	Belize	Belize
+17857	Belize	Belize
+17858	Belize	Belize
+17860	Belize	Belize
+17861	Belize	Belize
+17862	Belize	Belize
+17863	Belize	Belize
+17864	Belize	Belize
