@@ -301,6 +301,16 @@ write.table(metadata,"metadata.txt",sep="\t",col.names=NA)
 ps5_ra<-transform_sample_counts(ps5, function(OTU) OTU/sum(OTU))
 otu_ps5_ra = as(otu_table(ps5_ra), "matrix")
 write.table(otu_ps5_ra,"silva_nochloronomito_otu_table_ps5_RA.txt",sep="\t",col.names=NA)
+
+otu_ps10 = as(otu_table(ps10), "matrix")
+taxon_ps10 = as(tax_table(ps10), "matrix")
+metadata = as(sample_data(ps10), "matrix")
+write.table(otu_ps10,"silva_nochloronomito_otu_table_ps10.txt",sep="\t",col.names=NA)
+write.table(taxon_ps10,"silva_nochloronomito_taxa_table_ps10.txt",sep="\t",col.names=NA)
+write.table(metadata,"metadata.txt",sep="\t",col.names=NA)
+ps10_ra<-transform_sample_counts(ps10, function(OTU) OTU/sum(OTU))
+otu_ps10_ra = as(otu_table(ps10_ra), "matrix")
+write.table(otu_ps10_ra,"silva_nochloronomito_otu_table_ps10_RA.txt",sep="\t",col.names=NA)
 ```
 
 ## Perform center-log-ratio transformation on ASVs and calculate Aitchison Distance and principal components
@@ -377,18 +387,17 @@ plot(ano.location)
 
 ```{r, echo=FALSE}
 
-#### Making bar charts using ps5 (low abundance filtered) with n samples (n taxa) 
-
-ps5 #148 taxa and 171 samples
-ps5_ra<-transform_sample_counts(ps5, function(OTU) OTU/sum(OTU))
+#### Making bar charts using ps10 (low abundance filtered)
+ps10 #74 taxa and 171 samples
+ps10_ra<-transform_sample_counts(ps10, function(OTU) OTU/sum(OTU))
+ps10_ra
 #figure out how many colors you need
-get_taxa_unique(ps5_ra, "Order") #59
-get_taxa_unique(ps5_ra, "Class") #33
-get_taxa_unique(ps5_ra, "Genus") #88
-#you can make n any number of colors you want; with as much difference between the colors as possible (distinct colors)
+get_taxa_unique(ps10_ra, "Order") #37
+get_taxa_unique(ps10_ra, "Class") #25
+get_taxa_unique(ps10_ra, "Genus") #51
 
-#Set your color palette. This palette is auto-generated colors
-n <- 33
+#Set your color palette.
+n <- 25
 palette <- distinctColorPalette(n)
 #you can rerun the previous line to get a new selection of colors
 # keep list of colors used in palette that is most appealing
@@ -396,8 +405,8 @@ sink("palette.txt")
 print(palette)
 sink()
 
-pdf("BarChart_DCYL_location.pdf", width=10, height=8)
-p1=plot_bar(ps5_ra, fill="Class")+
+pdf("BarChart_class_location.pdf", width=10, height=8)
+p1=plot_bar(ps10_ra, fill="Class")+
   geom_bar(aes(fill=Class), stat="identity",position="stack") +
   theme(strip.text=element_text(face="bold"))+
   theme(axis.text.x=element_blank())+
@@ -409,17 +418,24 @@ p1=plot_bar(ps5_ra, fill="Class")+
 p1
 dev.off()
 
-pdf("BarChart_DCYL_reef.pdf", width=10, height=8)
-p2=plot_bar(ps5_ra, fill="Class")+
-  geom_bar(aes(fill=Class), stat="identity",position="stack") +
+n <- 51
+palette2 <- distinctColorPalette(n)
+sink("palette2.txt")
+print(palette2)
+sink()
+
+pdf("BarChart_genus_location.pdf", width=10, height=8)
+p2=plot_bar(ps10_ra, fill="Genus")+
+  geom_bar(aes(fill=Genus), stat="identity",position="stack") +
   theme(strip.text=element_text(face="bold"))+
   theme(axis.text.x=element_blank())+
-  scale_fill_manual(values=palette)+
+  scale_fill_manual(values=palette2)+
   theme(plot.title = element_text(face="italic"))+
   theme(legend.position = "bottom") +
   theme(axis.title.x = element_blank())+
-  facet_wrap(.~Reef, scales="free")
+  facet_wrap(.~Location, scales="free")
 p2
 dev.off()
 
 ```
+
