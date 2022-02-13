@@ -211,7 +211,7 @@ sum(seqtab.nochim)/sum(st.all)
 stat1 <- read.table("dada_read_stats1.txt",sep="\t",header=TRUE, row.names=1)
 stat2 <- read.table("dada_read_stats2.txt",sep="\t",header=TRUE, row.names=1)
 stat3 <- read.table("dada_read_stats3.txt",sep="\t",header=TRUE, row.names=1)
-stats.all<-bind_rows(stat1, stat2,stat3) 
+stats.all<-bind_rows(stat1,stat2,stat3) 
 write.table(stats.all, "dada_read_stats_all.txt",sep="\t",col.names=NA)
 # Track reads through the pipeline
 # As a final check of our progress, we’ll look at the number of reads that made it through each step in the pipeline
@@ -354,7 +354,7 @@ theme_set(theme_bw()+theme(panel.grid.major = element_blank(),panel.grid.minor =
 
 pdf("PCA.pdf",bg = "white",width=8.5)
 p<-ggplot(df_out,aes(x=PC1,y=PC2,colour=samples$Location))
-p<-p+geom_point(size=5)+
+p<-p+geom_point(size=3)+
   theme(axis.title = element_text(size=14))+
   theme(axis.text=element_text(size=12))+
   theme(legend.title = element_text(size=14))+
