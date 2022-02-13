@@ -394,6 +394,7 @@ ps10_ra
 #figure out how many colors you need
 get_taxa_unique(ps10_ra, "Order") #37
 get_taxa_unique(ps10_ra, "Class") #25
+get_taxa_unique(ps10_ra, "Family") #44
 get_taxa_unique(ps10_ra, "Genus") #51
 
 #Set your color palette.
@@ -418,15 +419,18 @@ p1=plot_bar(ps10_ra, fill="Class")+
 p1
 dev.off()
 
-n <- 51
-palette2 <- distinctColorPalette(n)
+
+n <- 44
+palette <- distinctColorPalette(n)
+#you can rerun the previous line to get a new selection of colors
+# keep list of colors used in palette that is most appealing
 sink("palette2.txt")
 print(palette2)
 sink()
 
-pdf("BarChart_genus_location.pdf", width=10, height=8)
-p2=plot_bar(ps10_ra, fill="Genus")+
-  geom_bar(aes(fill=Genus), stat="identity",position="stack") +
+pdf("BarChart_family_location.pdf", width=10, height=8)
+p2=plot_bar(ps10_ra, fill="Family")+
+  geom_bar(aes(fill=Family), stat="identity",position="stack") +
   theme(strip.text=element_text(face="bold"))+
   theme(axis.text.x=element_blank())+
   scale_fill_manual(values=palette2)+
@@ -435,6 +439,25 @@ p2=plot_bar(ps10_ra, fill="Genus")+
   theme(axis.title.x = element_blank())+
   facet_wrap(.~Location, scales="free")
 p2
+dev.off()
+
+n <- 51
+palette3 <- distinctColorPalette(n)
+sink("palette3.txt")
+print(palette3)
+sink()
+
+pdf("BarChart_genus_location.pdf", width=10, height=8)
+p3=plot_bar(ps10_ra, fill="Genus")+
+  geom_bar(aes(fill=Genus), stat="identity",position="stack") +
+  theme(strip.text=element_text(face="bold"))+
+  theme(axis.text.x=element_blank())+
+  scale_fill_manual(values=palette3)+
+  theme(plot.title = element_text(face="italic"))+
+  theme(legend.position = "bottom") +
+  theme(axis.title.x = element_blank())+
+  facet_wrap(.~Location, scales="free")
+p3
 dev.off()
 
 ```
