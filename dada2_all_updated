@@ -1,0 +1,690 @@
+#Install Libraries
+if (!require("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+
+BiocManager::install("phyloseq")
+BiocManager::install("ALDEx2")
+BiocManager::install("metagMisc")
+
+
+install.packages('devtools')
+devtools::install_github('ggloor/CoDaSeq/CoDaSeq')
+install.packages("metagMisc")
+
+
+#Load Libraries
+library(dada2)
+library(ShortRead)
+library(ggplot2)
+library(phyloseq)
+library(vegan)
+library(knitr)
+library(ALDEx2)
+library(zCompositions)
+library(igraph)
+library(car)
+library(grDevices)
+library(propr)
+library(cowplot)
+library(dplyr)
+library(reshape2)
+library(tibble)
+library(exactRankTests)
+library(nlme)
+library(data.table)
+library(Rmisc)
+library(indicspecies)
+library(viridis)
+library(CoDaSeq)
+library(randomcoloR)
+library(metagMisc)
+
+writeLines(capture.output(sessionInfo()), "sessionInfo.txt")
+
+#Combine RDS files
+run1 <- readRDS("/blue/juliemeyer/acauvin/dendrogyra_run1/dendrogyra_run1_all/seqtab.rds") 
+run2 <- readRDS("/blue/juliemeyer/acauvin/dendrogyra_run2/dendrogyra_run2_all/seqtab.rds") 
+run3 <- readRDS("/blue/juliemeyer/acauvin/dendrogyra_run3/dendrogyra_run3_all/seqtab.rds") 
+
+st.all <- mergeSequenceTables(run1, run2, run3, repeats="sum") # You may get the message "Duplicated sample names detected in the sequence table row names." to let you know that there are duplicate names across samples - it is not an error, just a message. If you have run a sample on more than one sequencing run, the ASV counts will be added together.
+#Remove chimeric sequences:
+seqtab.nochim <- removeBimeraDenovo(st.all, method="consensus", multithread=TRUE, verbose=TRUE)
+dim(seqtab.nochim)
+sum(seqtab.nochim)/sum(st.all)
+# Combine read stats from 4 runs and add chimera summary - This does not combine duplicate rows from repeated samples.
+stat1 <- read.table("/blue/juliemeyer/acauvin/dendrogyra_run1/dada_read_stats1.txt",sep="\t",header=TRUE, row.names=1)
+stat2 <- read.table("/blue/juliemeyer/acauvin/dendrogyra_run2/dada_read_stats1.txt",sep="\t",header=TRUE, row.names=1)
+stat3 <- read.table("/blue/juliemeyer/acauvin/dendrogyra_run3/dendrogyra_run3_all/dada_read_stats1.txt",sep="\t",header=TRUE, row.names=1)
+
+stats.all<-bind_rows(stat1, stat2,stat3) 
+write.table(stats.all, "dada_read_stats_all.txt",sep="\t",col.names=NA)
+# Track reads through the pipeline
+# As a final check of our progress, we’ll look at the number of reads that made it through each step in the pipeline
+rowSums(seqtab.nochim)
+# need to write this out to add to dada read stats
+# SAVE the non-chimeric sequence variant table SO YOU DON'T HAVE TO REPEAT ALL OF THE ABOVE STEPS
+saveRDS(seqtab.nochim, file="~/blue/juliemeyer/acauvin/dendrogyra_run_all/dendrogyra_seqtab_all.rds")
+
+
+###Look at Read Stats file to figure out which samples had very few sequences
+dada_read_stats_all<- read.table("dada_read_stats_all.txt", sep="\t")
+colnames(dada_read_stats_all)<-(dada_read_stats_all[1,])
+dada_read_stats_all<- dada_read_stats_all[-1, ]
+
+
+###Assign Taxonomy
+## Assign taxonomy in DADA2
+taxa <- assignTaxonomy(seqtab.nochim, "/blue/juliemeyer/share/silva_nr99_v138.1_train_set.fa.gz", multithread=TRUE)
+# FIX the NAs in the taxa table
+taxon <- as.data.frame(taxa,stringsAsFactors=FALSE)
+taxon$Phylum[is.na(taxon$Phylum)] <- taxon$Kingdom[is.na(taxon$Phylum)]
+taxon$Class[is.na(taxon$Class)] <- taxon$Phylum[is.na(taxon$Class)]
+taxon$Order[is.na(taxon$Order)] <- taxon$Class[is.na(taxon$Order)]
+taxon$Family[is.na(taxon$Family)] <- taxon$Order[is.na(taxon$Family)]
+taxon$Genus[is.na(taxon$Genus)] <- taxon$Family[is.na(taxon$Genus)]
+write.table(taxon,"silva_taxa_table.txt",sep="\t",col.names=NA)
+write.table(seqtab.nochim, "silva_otu_table.txt",sep="\t",col.names=NA)
+# Create phyloseq object from otu and taxonomy tables from dada2, along with the sample metadata.
+otu <- read.table("silva_otu_table.txt",sep="\t",header=TRUE, row.names=1)
+taxon <- read.table("silva_taxa_table.txt",sep="\t",header=TRUE,row.names=1)
+samples<-read.table("metadata.txt",sep="\t",header=T,row.names=1)
+OTU = otu_table(otu, taxa_are_rows=FALSE)
+taxon<-as.matrix(taxon)
+TAX = tax_table(taxon)
+sampledata = sample_data(samples)
+ps <- phyloseq(otu_table(otu, taxa_are_rows=FALSE), 
+               sample_data(samples), 
+               tax_table(taxon))
+ps
+# remove chloroplasts and mitochondria and Eukaryota
+get_taxa_unique(ps, "Family") 
+get_taxa_unique(ps, "Order") 
+get_taxa_unique(ps, "Kingdom") 
+ps <- subset_taxa(ps, Family !="Mitochondria")
+ps <- subset_taxa(ps, Order !="Chloroplast")
+ps <- subset_taxa(ps, Kingdom !="Eukaryota")
+ps <- subset_taxa(ps, Kingdom !="NA")
+get_taxa_unique(ps, "Family") 
+get_taxa_unique(ps, "Order") 
+get_taxa_unique(ps, "Kingdom")
+ps #20179 taxa and 197 samples
+# Now export cleaned otu and taxa tables from phyloseq for future reference
+otu = as(otu_table(ps), "matrix")
+taxon = as(tax_table(ps), "matrix")
+metadata = as(sample_data(ps), "matrix")
+write.table(otu,"silva_nochloronomito_otu_table.txt",sep="\t",col.names=NA)
+write.table(taxon,"silva_nochloronomito_taxa_table.txt",sep="\t",col.names=NA)
+# export ASV table as relative abundance
+ps_ra<-transform_sample_counts(ps, function(OTU) OTU/sum(OTU))
+otu_ra = as(otu_table(ps_ra), "matrix")
+write.table(otu_ra,"silva_nochloronomito_otu_table_RA.txt",sep="\t",col.names=NA)
+
+# Create phyloseq object from otu and taxonomy tables without chloroplast and mitochondria
+otu <- read.table("silva_nochloronomito_otu_table.txt",sep="\t",header=TRUE, row.names=1)
+taxon <- read.table("silva_nochloronomito_taxa_table.txt",sep="\t",header=TRUE,row.names=1)
+samples<-read.table("metadata.txt",sep="\t",header=T,row.names=1)
+OTU = otu_table(otu, taxa_are_rows=FALSE)
+taxon<-as.matrix(taxon)
+TAX = tax_table(taxon)
+sampledata = sample_data(samples)
+ps <- phyloseq(otu_table(otu, taxa_are_rows=FALSE), 
+               sample_data(samples), 
+               tax_table(taxon))
+ps #7548 taxa and 172 samples
+get_taxa_unique(ps, "Order") #308
+get_taxa_unique(ps, "Class") #129
+length(get_taxa_unique(ps, "Genus"))
+ps5<-filter_taxa(ps, function(x) mean(x) >5, TRUE)
+ntaxa(ps5) #148
+ps10<-filter_taxa(ps, function(x) mean(x) >10, TRUE)
+ntaxa(ps10) #74
+get_taxa_unique(ps, "Genus") #1065
+get_taxa_unique(ps5, "Genus") #86
+get_taxa_unique(ps10, "Genus") #52
+
+# Now export filtered otu and taxa tables from phyloseq for future reference after removing sample blanks
+ps5 #148 taxa and 172 samples
+otu_ps5 = as(otu_table(ps5), "matrix")
+taxon_ps5 = as(tax_table(ps5), "matrix")
+metadata = as(sample_data(ps5), "matrix")
+write.table(otu_ps5,"silva_nochloronomito_otu_table_ps5.txt",sep="\t",col.names=NA)
+write.table(taxon_ps5,"silva_nochloronomito_taxa_table_ps5.txt",sep="\t",col.names=NA)
+write.table(metadata,"metadata_noblanks.txt",sep="\t",col.names=NA)
+ps5_ra<-transform_sample_counts(ps5, function(OTU) OTU/sum(OTU))
+otu_ps5_ra = as(otu_table(ps5_ra), "matrix")
+write.table(otu_ps5_ra,"silva_nochloronomito_otu_table_ps5_RA.txt",sep="\t",col.names=NA)
+
+ps10 #74 taxa and 172 samples
+otu_ps10 = as(otu_table(ps10), "matrix")
+taxon_ps10 = as(tax_table(ps10), "matrix")
+write.table(otu_ps10,"silva_nochloronomito_otu_table_ps10.txt",sep="\t",col.names=NA)
+write.table(taxon_ps10,"silva_nochloronomito_taxa_table_ps10.txt",sep="\t",col.names=NA)
+
+
+## Perform center-log-ratio transformation on ASVs and calculate Aitchison Distance and principal components
+
+# use an ASV table that has been filtered to remove low-abundance ASVs, no blanks
+otu <- read.table("silva_nochloronomito_otu_table_ps5.txt",sep="\t",header=TRUE, row.names=1)
+taxon <- read.table("silva_nochloronomito_taxa_table_ps5.txt",sep="\t",header=TRUE,row.names=1)
+samples<-read.table("metadata.txt",sep="\t",header=T,row.names=1)
+
+#Remove samples that have 0s across the board
+row_names_df_to_remove<- c("17837-515rcbc156","17818-515rcbc109","17797-515rcbc122")
+otu1<- otu[!(row.names(otu) %in% row_names_df_to_remove),]
+samples$row.names<- row.names(samples)
+samples<- samples[!(row.names(samples) %in% row_names_df_to_remove),]
+View(samples)
+View(samples1)
+
+# First, replace 0 values with an estimate (because normalization is taking log, can't have 0)
+# Also transposing here, need samples as rows
+d.czm <- cmultRepl(t(otu1), method="CZM", label=0)
+# Perform the center-log-ratio (CLR) transformation 
+d.clr <- codaSeq.clr(d.czm)
+# transpose matrix of CLR transformed data for ordination and dendrogram
+E.clr <- t(d.clr)
+# plot compositional PCA biplot (perform a singular value decomposition)
+d.pcx <- prcomp(E.clr)
+# calculate percent variance explained for the axis labels
+pc1 <- round(d.pcx$sdev[1]^2/sum(d.pcx$sdev^2),2)
+pc2 <- round(d.pcx$sdev[2]^2/sum(d.pcx$sdev^2),2)
+xlab <- paste("PC1: ", pc1, sep="")
+ylab <- paste("PC2: ", pc2, sep="")
+#biplot(d.pcx, cex=c(0.6,0.4), var.axes=F,scale=1, xlab=xlab, ylab=ylab)
+summary(d.pcx)
+str(d.pcx)
+screeplot(d.pcx)
+# replot PCA with ggplot2 (showing samples only)
+df_out <- as.data.frame(d.pcx$x)
+theme_set(theme_bw()+theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank()))
+
+pdf("PCA.pdf",bg = "white",width=8.5)
+p<-ggplot(df_out,aes(x=PC1,y=PC2,colour=samples$Reef))
+p<-p+geom_point(size=5)+
+  theme(axis.title = element_text(size=14))+
+  theme(axis.text=element_text(size=12))+
+  theme(legend.title = element_text(size=14))+
+  theme(legend.text = element_text(size=12))+
+  guides(fill = guide_legend(override.aes=list(shape=21)))
+p + labs(x=xlab, y=ylab, colour="Reef") + coord_fixed()
+dev.off()
+
+####### Use phyloseq/vegan to perform ANOSIM/PERMANOVA
+
+
+# set metadata as factors for anosim
+reef<-as.character(samples$Reef)
+
+
+# anosim between groups using Aitchison distance
+dist.clr <- dist(E.clr)
+ano.site <- anosim(dist.clr, reef, permutations=999)
+pdf("DCYL_Healthy_Location.pdf",width=8.5)
+plot(ano.site)
+dev.off()
+print(ano.site)
+
+### Beta Diversity Dispersions
+#calculate multivariate dispersions based on location
+mod <-betadisper(dist.clr, reef)
+#one way anova
+anova(mod)
+#boxplots
+pdf("DCYL_Healthy_Reef_mod.pdf",width=8.5)
+plot(mod)
+dev.off()
+pdf("DCYL_Healthy_Reef_mod_boxplot.pdf",width=8.5)
+boxplot(mod)
+dev.off()
+
+## Compute mean distance to centroid per group
+#this just prints values on the console
+tapply(mod$distances, reef, mean)
+## Same, but variance instead
+tapply(mod$distances, reef, var)
+
+#Get the distances to centroid from the model
+mod$distances
+dis <- mod$distances
+#melt
+dis.melt <- melt(dis)
+#move rownames to columns so we can merge the dispersion values and metadata
+dis.melt$Sample <- rownames(dis.melt)
+samples$Sample <- rownames(samples)
+#merge metadata and dispersion 
+dis.reef <- merge(samples, dis.melt)
+#rename column
+colnames(dis.reef)[7] <- "distance"
+
+#run linear model to test significance
+distlm <-lm(distance~Reef, data=dis.reef)
+summary(distlm)
+anova(distlm)
+
+
+# plot average dispersion by group, with all points shown                               
+
+pdf("Figure4_DistanceToCentroid.pdf",width=8.5,height=11)
+p2<-ggplot(dis.treat2,aes(x=Condition,y=distance))+
+  geom_boxplot()+
+  facet_grid(Coral~.,space="free")+
+  geom_jitter(position=position_jitter(width=.1, height=0),aes(color=Condition),size=3)+
+  scale_color_manual(values=c("#D55E00","#999999","#000000"))+
+  theme(axis.title.x=element_blank())+
+  theme(legend.position="none")+
+  theme(text=element_text(size=14))+
+  theme(strip.text.y=element_text(face="italic",size=14))+
+  ylab("Distance to Centroid")
+p2
+dev.off()
+
+
+## Compute mean distance to centroid per location
+#this just prints values on the console
+tapply(mod$distances, reef, mean)
+## Same, but variance instead
+tapply(mod$distances, reef, var)
+
+
+#Get the distances to centroid from the model
+mod$distances
+dis <- mod$distances
+#melt
+dis.melt <- melt(dis)
+#move rownames to columns so we can merge the dispersion values and metadata
+dis.melt$Sample <- rownames(dis.melt)
+samples$Sample <- rownames(samples)
+#merge metadata and dispersion 
+dis.treat <- merge(samples, dis.melt)
+#rename column
+colnames(dis.treat)[7] <- "distance"
+
+
+#### Making bar charts using ps5 (low abundance filtered) with n samples (n taxa) 
+
+ps5
+ps_tr<-transform_sample_counts(ps5, function(OTU) OTU/sum(OTU))
+#figure out how many colors you need
+get_taxa_unique(ps_tr, "Order") #114
+get_taxa_unique(ps_tr, "Class") #33
+#you can make n any number of colors you want; with as much difference between the colors as possible (distinct colors)
+
+
+#Set your color palette. This palette is auto-generated colors
+n <- 33
+lgpalette <- distinctColorPalette(n)
+row_names<- samples$row.namesbv 
+samples<- samples[,1]
+samples<- as.data.frame(samples)
+row.names(samples)<- row.names
+colnames(samples)<- "Reef"
+
+pdf("BarChart_DCYL.pdf", width=10, height=8)
+p1=plot_bar(ps_tr, fill="Class")+
+  geom_bar(aes(fill=Class), stat="identity",position="stack") +
+  theme(strip.text=element_text(face="bold"))+
+  theme(axis.text.x=element_blank())+
+  scale_fill_manual(values=lgpalette)+
+  ggtitle("DCYL Class")+
+  theme(plot.title = element_text(face="italic"))+
+  theme(legend.position = "bottom") +
+  theme(axis.title.x = element_blank())+
+  facet_wrap( ~ Reef, scale="free")
+p1
+dev.off()
+
+#Set your color palette. This palette is auto-generated colors
+get_taxa_unique(ps_tr, "Family") #70
+n <- 70
+lgpalette2 <- distinctColorPalette(n)
+row_names<- samples$row.namesbv 
+samples<- samples[,1]
+samples<- as.data.frame(samples)
+row.names(samples)<- row.names
+colnames(samples)<- "Reef"
+
+pdf("BarChart_DCYL_Family.pdf", width=10, height=8)
+p2=plot_bar(ps_tr, fill="Family")+
+  geom_bar(aes(fill=Family), stat="identity",position="stack") +
+  theme(strip.text=element_text(face="bold"))+
+  theme(axis.text.x=element_blank())+
+  scale_fill_manual(values=lgpalette2)+
+  ggtitle("DCYL Family")+
+  theme(plot.title = element_text(face="italic"))+
+  theme(legend.position = "bottom") +
+  theme(axis.title.x = element_blank())+
+  facet_wrap( ~ Reef, scale="free")
+p2
+dev.off()
+
+##Plotting n most abundant taxa
+
+#Set color palette for publication colors 
+install.packages("nationalparkcolors")
+library(viridis)
+everglades <- c("#FCD46C", "#8CCED4", "#A9523D", "#5B5E45", "#C4744C", "#E9D9B9", "#8B9A7B", "#120C09", "#3A9F6F", "#F5A63E", "#5B7D59", "#32838D", "#DAA598")
+
+to_remove <- c("17797-515rcbc122", "17818-515rcbc109", "17837-515rcbc156")
+
+z <- prune_samples(!(sample_names(ps_tr) %in% to_remove), ps_tr)
+
+ps20<-prune_taxa(names(sort(taxa_sums(z),TRUE)[1:20]), z)
+ps20
+
+pdf("BarChartAllSamples_Compare_20taxa.pdf",width=16, height=10)
+twenty=plot_bar(ps20, fill="Genus")
+twenty+geom_bar(aes(fill=Genus), stat="identity",position="stack")+
+  theme(strip.text=element_text(face="bold"))+ 
+  theme(axis.text.x = element_blank( ))+
+  scale_fill_viridis(discrete = TRUE)+
+  theme(legend.position = "bottom")+ 
+  facet_grid(~Reef, scale = "free_x", space = "free_x")
+dev.off()
+
+#Make plot an average of the relative abundance across reefs
+sample_data(ps5_ra)$SampleID <- row.names(sample_data(ps5_ra))
+ps5_ra_pruned <- prune_samples(!(sample_names(ps5_ra) %in% to_remove), ps5_ra)
+ps5_merged <- merge_samples(ps5_ra_pruned, "Reef")
+ps5_merged_tr <- transform_sample_counts(ps5_merged, function(x) x / sum(x))
+plot_bar(ps5_merged_tr, fill="Genus")
+
+ps20_merged<-prune_taxa(names(sort(taxa_sums(ps5_merged_tr),TRUE)[1:20]), ps5_merged_tr)
+ps20_merged
+
+pdf("BarChart_Merged_Compare_20taxa.pdf",width=16, height=10)
+twenty_merged=plot_bar(ps20_merged, fill="Genus")
+twenty_merged+geom_bar(aes(fill=Genus), stat="identity",position="stack")+
+  theme(strip.text=element_text(face="bold"))+ 
+  theme(axis.text.x = element_text(angle=45 ))+
+  scale_fill_viridis(discrete = TRUE)+
+  theme(legend.position = "bottom")+
+  theme(axis.text.x = element_text(hjust=1))+
+  theme(axis.text.x = element_text(face="bold"))+
+  theme(axis.text.x = element_text(size = 12))+
+  
+dev.off()
+
+summarize_taxa(twenty_merged, "Genus")
+
+#Coerce Top 20 taxa as data frame
+# Extract abundance matrix from the phyloseq object
+OTU1 = as(otu_table(ps20), "matrix")
+# transpose if necessary
+if(taxa_are_rows(ps20)){OTU1 <- t(OTU1)}
+# Coerce to data.frame
+OTUdf = as.data.frame(OTU1)
+colnames(OTUdf)
+top20<- colnames(OTUdf)
+write(top20, "top20ASVs.txt")
+
+#Extract Top 20 ASV table as a dataframe
+ASV1<- as(tax_table(ps20), "matrix")
+ASVdf<- as.data.frame(ASV1)
+write.csv(ASVdf, "top20Taxa.csv", row.names=TRUE)
+
+
+
+#############Analysis of Community to detect differentially abundant taxa
+
+ancom.W = function(otu_data,var_data,
+                   adjusted,repeated,
+                   main.var,adj.formula,
+                   repeat.var,long,rand.formula,
+                   multcorr,sig){
+  
+  n_otu=dim(otu_data)[2]-1
+  
+  otu_ids=colnames(otu_data)[-1]
+  
+  if(repeated==F){
+    data_comp=data.frame(merge(otu_data,var_data,by="Sample.ID",all.y=T),row.names=NULL)
+    #data_comp=data.frame(merge(otu_data,var_data[,c("Sample.ID",main.var)],by="Sample.ID",all.y=T),row.names=NULL)
+  }else if(repeated==T){
+    data_comp=data.frame(merge(otu_data,var_data,by="Sample.ID"),row.names=NULL)
+    # data_comp=data.frame(merge(otu_data,var_data[,c("Sample.ID",main.var,repeat.var)],by="Sample.ID"),row.names=NULL)
+  }
+  
+  base.formula = paste0("lr ~ ",main.var)
+  if(repeated==T){
+    repeat.formula = paste0(base.formula," | ", repeat.var)
+  }
+  if(adjusted==T){
+    adjusted.formula = paste0(base.formula," + ", adj.formula)
+  }
+  
+  if( adjusted == F & repeated == F ){
+    fformula  <- formula(base.formula)
+  } else if( adjusted == F & repeated == T & long == T ){
+    fformula  <- formula(base.formula)   
+  }else if( adjusted == F & repeated == T & long == F ){
+    fformula  <- formula(repeat.formula)   
+  }else if( adjusted == T & repeated == F  ){
+    fformula  <- formula(adjusted.formula)   
+  }else if( adjusted == T & repeated == T  ){
+    fformula  <- formula(adjusted.formula)   
+  }else{
+    stop("Problem with data. Dataset should contain OTU abundances, groups, 
+         and optionally an ID for repeated measures.")
+  }
+  
+  
+  
+  if( repeated==FALSE & adjusted == FALSE){
+    if( length(unique(data_comp[,which(colnames(data_comp)==main.var)]))==2 ){
+      tfun <- exactRankTests::wilcox.exact
+    } else{
+      tfun <- stats::kruskal.test
+    }
+  }else if( repeated==FALSE & adjusted == TRUE){
+    tfun <- stats::aov
+  }else if( repeated== TRUE & adjusted == FALSE & long == FALSE){
+    tfun <- stats::friedman.test
+  }else if( repeated== TRUE & adjusted == FALSE & long == TRUE){
+    tfun <- nlme::lme
+  }else if( repeated== TRUE & adjusted == TRUE){
+    tfun <- nlme::lme
+  }
+  
+  logratio.mat <- matrix(NA, nrow=n_otu, ncol=n_otu)
+  for(ii in 1:(n_otu-1)){
+    for(jj in (ii+1):n_otu){
+      data.pair <- data_comp[,which(colnames(data_comp)%in%otu_ids[c(ii,jj)])]
+      lr <- log((1+as.numeric(data.pair[,1]))/(1+as.numeric(data.pair[,2])))
+      
+      lr_dat <- data.frame( lr=lr, data_comp,row.names=NULL )
+      
+      if(adjusted==FALSE&repeated==FALSE){  ## Wilcox, Kruskal Wallis
+        logratio.mat[ii,jj] <- tfun( formula=fformula, data = lr_dat)$p.value
+      }else if(adjusted==FALSE&repeated==TRUE&long==FALSE){ ## Friedman's 
+        logratio.mat[ii,jj] <- tfun( formula=fformula, data = lr_dat)$p.value
+      }else if(adjusted==TRUE&repeated==FALSE){ ## ANOVA
+        model=tfun(formula=fformula, data = lr_dat,na.action=na.omit)   
+        picker=which(gsub(" ","",row.names(summary(model)[[1]]))==main.var)  
+        logratio.mat[ii,jj] <- summary(model)[[1]][["Pr(>F)"]][picker]
+      }else if(repeated==TRUE&long==TRUE){ ## GEE
+        model=tfun(fixed=fformula,data = lr_dat,
+                   random = formula(rand.formula),
+                   correlation=corAR1(),
+                   na.action=na.omit)   
+        picker=which(gsub(" ","",row.names(anova(model)))==main.var)
+        logratio.mat[ii,jj] <- anova(model)[["p-value"]][picker]
+      }
+      
+    }
+  } 
+  
+  ind <- lower.tri(logratio.mat)
+  logratio.mat[ind] <- t(logratio.mat)[ind]
+  
+  
+  logratio.mat[which(is.finite(logratio.mat)==FALSE)] <- 1
+  
+  mc.pval <- t(apply(logratio.mat,1,function(x){
+    s <- p.adjust(x, method = "BH")
+    return(s)
+  }))
+  
+  a <- logratio.mat[upper.tri(logratio.mat,diag=FALSE)==TRUE]
+  
+  b <- matrix(0,ncol=n_otu,nrow=n_otu)
+  b[upper.tri(b)==T] <- p.adjust(a, method = "BH")
+  diag(b)  <- NA
+  ind.1    <- lower.tri(b)
+  b[ind.1] <- t(b)[ind.1]
+  
+  #########################################
+  ### Code to extract surrogate p-value
+  surr.pval <- apply(mc.pval,1,function(x){
+    s0=quantile(x[which(as.numeric(as.character(x))<sig)],0.95)
+    # s0=max(x[which(as.numeric(as.character(x))<alpha)])
+    return(s0)
+  })
+  #########################################
+  ### Conservative
+  if(multcorr==1){
+    W <- apply(b,1,function(x){
+      subp <- length(which(x<sig))
+    })
+    ### Moderate
+  } else if(multcorr==2){
+    W <- apply(mc.pval,1,function(x){
+      subp <- length(which(x<sig))
+    })
+    ### No correction
+  } else if(multcorr==3){
+    W <- apply(logratio.mat,1,function(x){
+      subp <- length(which(x<sig))
+    })
+  }
+  
+  return(W)
+}
+
+
+
+ANCOM.main = function(OTUdat,Vardat,
+                      adjusted,repeated,
+                      main.var,adj.formula,
+                      repeat.var,longitudinal,
+                      random.formula,
+                      multcorr,sig,
+                      prev.cut){
+  
+  p.zeroes=apply(OTUdat[,-1],2,function(x){
+    s=length(which(x==0))/length(x)
+  })
+  
+  zeroes.dist=data.frame(colnames(OTUdat)[-1],p.zeroes,row.names=NULL)
+  colnames(zeroes.dist)=c("Taxon","Proportion_zero")
+  
+  zero.plot = ggplot(zeroes.dist, aes(x=Proportion_zero)) + 
+    geom_histogram(binwidth=0.1,colour="black",fill="white") + 
+    xlab("Proportion of zeroes") + ylab("Number of taxa") +
+    theme_bw()
+  
+  #print(zero.plot)
+  
+  OTUdat.thinned=OTUdat
+  OTUdat.thinned=OTUdat.thinned[,c(1,1+which(p.zeroes<prev.cut))]
+  
+  otu.names=colnames(OTUdat.thinned)[-1]
+  
+  W.detected   <- ancom.W(OTUdat.thinned,Vardat,
+                          adjusted,repeated,
+                          main.var,adj.formula,
+                          repeat.var,longitudinal,random.formula,
+                          multcorr,sig)
+  
+  W_stat       <- W.detected
+  
+  
+  ### Bubble plot
+  
+  W_frame = data.frame(otu.names,W_stat,row.names=NULL)
+  W_frame = W_frame[order(-W_frame$W_stat),]
+  
+  W_frame$detected_0.9=rep(FALSE,dim(W_frame)[1])
+  W_frame$detected_0.8=rep(FALSE,dim(W_frame)[1])
+  W_frame$detected_0.7=rep(FALSE,dim(W_frame)[1])
+  W_frame$detected_0.6=rep(FALSE,dim(W_frame)[1])
+  
+  W_frame$detected_0.9[which(W_frame$W_stat>0.9*(dim(OTUdat.thinned[,-1])[2]-1))]=TRUE
+  W_frame$detected_0.8[which(W_frame$W_stat>0.8*(dim(OTUdat.thinned[,-1])[2]-1))]=TRUE
+  W_frame$detected_0.7[which(W_frame$W_stat>0.7*(dim(OTUdat.thinned[,-1])[2]-1))]=TRUE
+  W_frame$detected_0.6[which(W_frame$W_stat>0.6*(dim(OTUdat.thinned[,-1])[2]-1))]=TRUE
+  
+  final_results=list(W_frame,zero.plot)
+  names(final_results)=c("W.taxa","PLot.zeroes")
+  return(final_results)
+}
+
+#####ANCOM results
+otu <- read.table("silva_nochloronomito_otu_table.txt",sep="\t",header=TRUE, row.names=1)
+taxon <- read.table("silva_nochloronomito_taxa_table.txt",sep="\t",header=TRUE,row.names=1)
+samples<-read.table("metadata.txt",sep="\t",header=T,row.names=1)
+OTU = otu_table(otu, taxa_are_rows=FALSE)
+taxon<-as.matrix(taxon)
+TAX = tax_table(taxon)
+sampledata = sample_data(samples)
+ps <- phyloseq(otu_table(otu, taxa_are_rows=FALSE), 
+               sample_data(samples), 
+               tax_table(taxon))
+ps
+
+
+get_taxa_unique(ps, "Family") #546 
+
+library(data.table)
+
+#Need to run ANCOM function first
+#ANCOM
+#from phyloseq -use all of the data, not relative abundance, and  not filtered beyond mitochondria and choloroplasts 
+#Make the otutable
+#group the otus based on family
+#this is probaby a little overkill, but it's how I've done it in the past - all you need is the otutable really, so probably that could have been done in one step, but i like this for future plot-making
+dat <- tax_glom(ps, taxrank = "Family") #at the Family level
+
+#melt the data, so it's like a dataframe
+datm <- psmelt(dat)
+
+#Cast the new datatable with columns that are of interest
+datc <- data.table::dcast(datm, Reef ~ Family, value.var = 'Abundance', fun.aggregate = sum)
+
+dim(datc) #dimensions of the table
+
+otud <- datc[,c(1,3:547)] #select the first column, and then all of the taxa columns 
+colnames(otud)[1] <- "Reef" #rename the first column to Sample.ID - this is to match ANCOM syntax
+
+metadat <- sample_data(ps) #get the sample data
+metadat <- as.data.frame(as.matrix(metadat)) #make into into a matrix
+
+library(dplyr)
+library(reshape2)
+metadat <- tibble::rownames_to_column(metadat, "Sample.ID") #make sure the sample names column is called Sample.ID
+
+names(otud) <- make.names(names(otud)) #get the names from the table for
+otud
+otu_test <- otud #rename otud to otu_test, for syntax in ANCOM
+
+metadat <- select(metadat, c("Sample.ID","Reef")) # use select to only use treatment columns of interest
+map_test <- metadat #rename map_TEst
+Vardat <- map_test #specify that this for Vardat - ANCOM syntax
+
+#### ANCOM test - not adjusted, more than 2 levels = Kruskal Wallis
+comparison_test_treat=ANCOM.main(OTUdat=otu_test, #calling the OTU table
+                                 Vardat=map_test, #calling the metadata
+                                 adjusted=FALSE, #true if covariates are to be included for adjustment
+                                 repeated=FALSE, #repeated measure
+                                 main.var="Reef", #main variable or factor
+                                 adj.formula= NULL, #other factors to include
+                                 repeat.var=FALSE, #repeated measure
+                                 long = FALSE, #longitudinal study
+                                 multcorr=2,
+                                 sig=0.05, #significance level
+                                 prev.cut=0.90) #OTUs with proportion of zeroes greater than prev.cut are not included in the analysis
+
+res <- comparison_test_treat$W.taxa #taxa that significantly vary across factor level of interest
+write.table(res,"ANCOM_family_KruskallWallis_Near_Far.txt",sep="\t",col.names=NA)
+res2 <- res[which(res$detected_0.7==TRUE),] 
+
+
