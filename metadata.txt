@@ -1,172 +1,172 @@
-""	"Location"	"Reef"
-"16724"	"Curacao"	"Klein Curacao"
-"16725"	"Curacao"	"Klein Curacao"
-"16726"	"Curacao"	"Klein Curacao"
-"16727"	"Curacao"	"Klein Curacao"
-"16728"	"Curacao"	"Klein Curacao"
-"16729"	"Curacao"	"Klein Curacao"
-"16730"	"Curacao"	"Klein Curacao"
-"16731"	"Curacao"	"Klein Curacao"
-"16732"	"Curacao"	"Korredor (Water Factory)"
-"16733"	"Curacao"	"Korredor (Water Factory)"
-"16734"	"Curacao"	"Korredor (Water Factory)"
-"16735"	"Curacao"	"Playa Kalki"
-"16736"	"Curacao"	"Playa Kalki"
-"16737"	"Curacao"	"Playa Kalki"
-"16738"	"Curacao"	"Double Reef (HBH)"
-"16739"	"Curacao"	"Double Reef (HBH)"
-"16740"	"Curacao"	"Double Reef (HBH)"
-"16741"	"Curacao"	"Double Reef (HBH)"
-"16742"	"Curacao"	"Double Reef (HBH)"
-"16743"	"Curacao"	"Double Reef (HBH)"
-"16744"	"Curacao"	"Double Reef (HBH)"
-"16745"	"Curacao"	"Double Reef (HBH)"
-"16746"	"Curacao"	"Double Reef (HBH)"
-"16747"	"Curacao"	"Double Reef (HBH)"
-"16748"	"Curacao"	"Sea Aquarium"
-"16749"	"Curacao"	"Sea Aquarium"
-"16750"	"Curacao"	"Sea Aquarium"
-"16751"	"Curacao"	"Sea Aquarium"
-"16752"	"Curacao"	"Sea Aquarium"
-"16753"	"Curacao"	"Sea Aquarium"
-"16754"	"Curacao"	"Sea Aquarium"
-"16755"	"Curacao"	"Sea Aquarium"
-"16756"	"Curacao"	"Sea Aquarium"
-"16757"	"Curacao"	"Sea Aquarium"
-"16758"	"Curacao"	"Sea Aquarium"
-"16759"	"Curacao"	"Sea Aquarium"
-"16760"	"Curacao"	"Sea Aquarium"
-"16761"	"Curacao"	"Sea Aquarium"
-"16763"	"Curacao"	"Sea Aquarium"
-"16765"	"Curacao"	"Sea Aquarium"
-"16766"	"Curacao"	"Sea Aquarium"
-"16767"	"Curacao"	"Sea Aquarium"
-"16768"	"Curacao"	"Kleine Knip"
-"16769"	"Curacao"	"Kleine Knip"
-"16770"	"Curacao"	"Kleine Knip"
-"16771"	"Curacao"	"Kleine Knip"
-"16772"	"Curacao"	"Santa Martha Baai"
-"16773"	"Curacao"	"Santa Martha Baai"
-"16774"	"Curacao"	"Santa Martha Baai"
-"16775"	"Curacao"	"Santa Martha Baai"
-"16776"	"Curacao"	"Santa Martha Baai"
-"16777"	"Curacao"	"Santa Martha Baai"
-"16779"	"Curacao"	"Santa Martha Baai"
-"16780"	"Curacao"	"Santa Martha Baai"
-"16781"	"Curacao"	"Santa Martha Baai"
-"16782"	"Curacao"	"Spaanse Water (Spanish Water)"
-"16783"	"Curacao"	"Spaanse Water (Spanish Water)"
-"16784"	"Curacao"	"Spaanse Water (Spanish Water)"
-"16785"	"Curacao"	"Spaanse Water (Spanish Water)"
-"16786"	"Curacao"	"Spaanse Water (Spanish Water)"
-"16787"	"Curacao"	"Spaanse Water (Spanish Water)"
-"16788"	"Curacao"	"Spaanse Water (Spanish Water)"
-"16789"	"Curacao"	"Spaanse Water (Spanish Water)"
-"16790"	"Curacao"	"Spaanse Water (Spanish Water)"
-"16791"	"Curacao"	"Spaanse Water (Spanish Water)"
-"16792"	"Curacao"	"Spaanse Water (Spanish Water)"
-"16793"	"Curacao"	"Spaanse Water (Spanish Water)"
-"16794"	"Curacao"	"Spaanse Water (Spanish Water)"
-"16795"	"Curacao"	"Spaanse Water (Spanish Water)"
-"16797"	"Curacao"	"Spaanse Water (Spanish Water)"
-"16798"	"Curacao"	"Spaanse Water (Spanish Water)"
-"16799"	"Curacao"	"Spaanse Water (Spanish Water)"
-"16800"	"Curacao"	"Spaanse Water (Spanish Water)"
-"16801"	"Curacao"	"Spaanse Water (Spanish Water)"
-"16802"	"Curacao"	"Blauwbaai (Blue Bay)"
-"16803"	"Curacao"	"Blauwbaai (Blue Bay)"
-"16804"	"Curacao"	"Blauwbaai (Blue Bay)"
-"16807"	"Curacao"	"Blauwbaai (Blue Bay)"
-"16808"	"Curacao"	"Blauwbaai (Blue Bay)"
-"16809"	"Curacao"	"Blauwbaai (Blue Bay)"
-"16810"	"Curacao"	"Blauwbaai (Blue Bay)"
-"16811"	"Curacao"	"Blauwbaai (Blue Bay)"
-"16812"	"Curacao"	"Blauwbaai (Blue Bay)"
-"16815"	"Curacao"	"Blauwbaai (Blue Bay)"
-"16816"	"Curacao"	"Blauwbaai (Blue Bay)"
-"16817"	"Curacao"	"Blauwbaai (Blue Bay)"
-"16818"	"Curacao"	"Blauwbaai (Blue Bay)"
-"16819"	"Curacao"	"Blauwbaai (Blue Bay)"
-"16820"	"Curacao"	"Blauwbaai (Blue Bay)"
-"16821"	"Curacao"	"Blauwbaai (Blue Bay)"
-"16822"	"Curacao"	"Coral Estate (Habitat)"
-"16823"	"Curacao"	"Coral Estate (Habitat)"
-"16824"	"Curacao"	"Rif Sint Marie"
-"16826"	"Curacao"	"Rif Sint Marie"
-"16827"	"Curacao"	"Rif Sint Marie"
-"16828"	"Curacao"	"Rif Sint Marie"
-"17786"	"Curacao"	"Rif Sint Marie"
-"17787"	"Curacao"	"Rif Sint Marie"
-"17788"	"Curacao"	"Rif Sint Marie"
-"17789"	"Curacao"	"Rif Sint Marie"
-"17790"	"Curacao"	"Rif Sint Marie"
-"17791"	"Curacao"	"Rif Sint Marie"
-"17792"	"Curacao"	"Rif Sint Marie"
-"17793"	"Curacao"	"Rif Sint Marie"
-"17794"	"Curacao"	"Rif Sint Marie"
-"17795"	"Curacao"	"Rif Sint Marie"
-"17796"	"Curacao"	"Rif Sint Marie"
-"17797"	"Curacao"	"Rif Sint Marie"
-"17798"	"Curacao"	"Rif Sint Marie"
-"17799"	"Curacao"	"Rif Sint Marie"
-"17800"	"Curacao"	"Rif Sint Marie"
-"17801"	"Curacao"	"Watamula (Villa Westpunt)"
-"17802"	"Curacao"	"Watamula (Villa Westpunt)"
-"17803"	"Curacao"	"Watamula (Villa Westpunt)"
-"17804"	"Curacao"	"Watamula (Villa Westpunt)"
-"17805"	"Curacao"	"Watamula (Villa Westpunt)"
-"17806"	"Curacao"	"Watamula (Villa Westpunt)"
-"17807"	"Curacao"	"Watamula (Villa Westpunt)"
-"17809"	"Curacao"	"Watamula (Villa Westpunt)"
-"17810"	"Curacao"	"Watamula (Villa Westpunt)"
-"17811"	"Curacao"	"Watamula (Villa Westpunt)"
-"17812"	"Curacao"	"Watamula (Villa Westpunt)"
-"17813"	"Curacao"	"Watamula (Villa Westpunt)"
-"17814"	"Curacao"	"Watamula (Villa Westpunt)"
-"17815"	"Curacao"	"Watamula (Villa Westpunt)"
-"17816"	"Curacao"	"Watamula (Villa Westpunt)"
-"17818"	"Curacao"	"Watamula (Villa Westpunt)"
-"17819"	"Curacao"	"Watamula (Villa Westpunt)"
-"17820"	"Curacao"	"Watamula (Villa Westpunt)"
-"17821"	"Belize"	"Belize"
-"17822"	"Belize"	"Belize"
-"17823"	"Belize"	"Belize"
-"17824"	"Belize"	"Belize"
-"17825"	"Belize"	"Belize"
-"17826"	"Belize"	"Belize"
-"17827"	"Belize"	"Belize"
-"17828"	"Belize"	"Belize"
-"17829"	"Belize"	"Belize"
-"17830"	"Belize"	"Belize"
-"17831"	"Belize"	"Belize"
-"17832"	"Belize"	"Belize"
-"17833"	"Belize"	"Belize"
-"17834"	"Belize"	"Belize"
-"17835"	"Belize"	"Belize"
-"17836"	"Belize"	"Belize"
-"17838"	"Belize"	"Belize"
-"17839"	"Belize"	"Belize"
-"17840"	"Belize"	"Belize"
-"17841"	"Belize"	"Belize"
-"17842"	"Belize"	"Belize"
-"17843"	"Belize"	"Belize"
-"17844"	"Belize"	"Belize"
-"17845"	"Belize"	"Belize"
-"17846"	"Belize"	"Belize"
-"17847"	"Belize"	"Belize"
-"17848"	"Belize"	"Belize"
-"17849"	"Belize"	"Belize"
-"17850"	"Belize"	"Belize"
-"17851"	"Belize"	"Belize"
-"17852"	"Belize"	"Belize"
-"17853"	"Belize"	"Belize"
-"17854"	"Belize"	"Belize"
-"17855"	"Belize"	"Belize"
-"17856"	"Belize"	"Belize"
-"17857"	"Belize"	"Belize"
-"17858"	"Belize"	"Belize"
-"17860"	"Belize"	"Belize"
-"17861"	"Belize"	"Belize"
-"17862"	"Belize"	"Belize"
-"17863"	"Belize"	"Belize"
-"17864"	"Belize"	"Belize"
+Sample_ID	Region	Reef	Collection.Date	Latitude	Longitude	NCBI Biosample accession	Total reads
+16724	Curacao	Klein Curacao	11/13/19	11.979767	-68.640382	SAMN45006286	78788
+16725	Curacao	Klein Curacao	11/13/19	11.979767	-68.640382	SAMN45006287	17413
+16726	Curacao	Klein Curacao	11/13/19	11.979767	-68.640382	SAMN45006288	28505
+16727	Curacao	Klein Curacao	11/13/19	11.979767	-68.640382	SAMN45006289	28801
+16728	Curacao	Klein Curacao	11/13/19	11.979767	-68.640382	SAMN45006290	11426
+16729	Curacao	Klein Curacao	11/13/19	11.979767	-68.640382	SAMN45006291	38936
+16730	Curacao	Klein Curacao	11/13/19	11.979767	-68.640382	SAMN45006292	20669
+16731	Curacao	Klein Curacao	11/13/19	11.979767	-68.640382	SAMN45006293	44025
+16732	Curacao	Korredor (Water Factory)	1/19/20	12.109365	-68.955092	SAMN45006294	40273
+16733	Curacao	Korredor (Water Factory)	1/19/20	12.109365	-68.955092	SAMN45006295	49315
+16734	Curacao	Korredor (Water Factory)	1/19/20	12.109365	-68.955092	SAMN45006296	24638
+16735	Curacao	Playa Kalki	1/20/20	12.376102	-69.159577	SAMN45006297	41441
+16736	Curacao	Playa Kalki	1/20/20	12.376102	-69.159577	SAMN45006298	26244
+16737	Curacao	Playa Kalki	1/20/20	12.376102	-69.159577	SAMN45006299	16200
+16738	Curacao	Double Reef (HBH)	1/21/20	12.10742	-68.95005299	SAMN45006300	46373
+16739	Curacao	Double Reef (HBH)	1/21/20	12.10742	-68.95005299	SAMN45006301	47956
+16740	Curacao	Double Reef (HBH)	1/21/20	12.10742	-68.95005299	SAMN45006302	47220
+16741	Curacao	Double Reef (HBH)	1/21/20	12.10742	-68.95005299	SAMN45006303	54970
+16742	Curacao	Double Reef (HBH)	1/21/20	12.10742	-68.95005299	SAMN45006304	32776
+16743	Curacao	Double Reef (HBH)	1/21/20	12.10742	-68.95005299	SAMN45006305	57062
+16744	Curacao	Double Reef (HBH)	1/21/20	12.10742	-68.95005299	SAMN45006306	56089
+16745	Curacao	Double Reef (HBH)	1/21/20	12.10742	-68.95005299	SAMN45006307	50624
+16746	Curacao	Double Reef (HBH)	1/21/20	12.10742	-68.95005299	SAMN45006308	31689
+16747	Curacao	Double Reef (HBH)	1/21/20	12.10742	-68.95005299	SAMN45006309	19129
+16748	Curacao	Sea Aquarium	2/3/20	12.08290704	-68.89613598	SAMN45006310	25631
+16749	Curacao	Sea Aquarium	2/3/20	12.08290704	-68.89613598	SAMN45006311	47770
+16750	Curacao	Sea Aquarium	2/3/20	12.08290704	-68.89613598	SAMN45006312	26732
+16751	Curacao	Sea Aquarium	2/3/20	12.08290704	-68.89613598	SAMN45006313	27012
+16752	Curacao	Sea Aquarium	2/3/20	12.08290704	-68.89613598	SAMN45006314	40373
+16753	Curacao	Sea Aquarium	2/3/20	12.08290704	-68.89613598	SAMN45006315	13764
+16754	Curacao	Sea Aquarium	2/3/20	12.08290704	-68.89613598	SAMN45006316	40111
+16755	Curacao	Sea Aquarium	2/3/20	12.08290704	-68.89613598	SAMN45006317	25900
+16756	Curacao	Sea Aquarium	2/3/20	12.08290704	-68.89613598	SAMN45006318	20035
+16757	Curacao	Sea Aquarium	2/3/20	12.08290704	-68.89613598	SAMN45006319	21908
+16758	Curacao	Sea Aquarium	2/3/20	12.08290704	-68.89613598	SAMN45006320	36321
+16759	Curacao	Sea Aquarium	2/3/20	12.08290704	-68.89613598	SAMN45006321	8295
+16760	Curacao	Sea Aquarium	2/3/20	12.08290704	-68.89613598	SAMN45006322	45116
+16761	Curacao	Sea Aquarium	2/3/20	12.08290704	-68.89613598	SAMN45006323	6547
+16763	Curacao	Sea Aquarium	2/3/20	12.08290704	-68.89613598	SAMN45006324	8383
+16765	Curacao	Sea Aquarium	2/3/20	12.08290704	-68.89613598	SAMN45006325	26620
+16766	Curacao	Sea Aquarium	2/3/20	12.08290704	-68.89613598	SAMN45006326	36836
+16767	Curacao	Sea Aquarium	2/3/20	12.08290704	-68.89613598	SAMN45006327	35973
+16768	Curacao	Kleine Knip	2/3/20	12.335104	-69.15524399	SAMN45006328	18737
+16769	Curacao	Kleine Knip	2/3/20	12.335104	-69.15524399	SAMN45006329	3296
+16770	Curacao	Kleine Knip	2/3/20	12.335104	-69.15524399	SAMN45006330	19669
+16771	Curacao	Kleine Knip	2/3/20	12.335104	-69.15524399	SAMN45006331	15395
+16772	Curacao	Santa Martha Baai	2/3/20	12.26695603	-69.12819902	SAMN45006332	2114
+16773	Curacao	Santa Martha Baai	2/3/20	12.26695603	-69.12819902	SAMN45006333	29680
+16774	Curacao	Santa Martha Baai	2/3/20	12.26695603	-69.12819902	SAMN45006334	19280
+16775	Curacao	Santa Martha Baai	2/3/20	12.26695603	-69.12819902	SAMN45006335	8702
+16776	Curacao	Santa Martha Baai	2/3/20	12.26695603	-69.12819902	SAMN45006336	11025
+16777	Curacao	Santa Martha Baai	2/3/20	12.26695603	-69.12819902	SAMN45006337	6605
+16779	Curacao	Santa Martha Baai	2/3/20	12.26695603	-69.12819902	SAMN45006339	28204
+16780	Curacao	Santa Martha Baai	2/3/20	12.26695603	-69.12819902	SAMN45006340	3343
+16781	Curacao	Santa Martha Baai	2/3/20	12.26695603	-69.12819902	SAMN45006341	4879
+16782	Curacao	Spaanse Water (Spanish Water)	2/5/20	12.063773	-68.85297798	SAMN45006342	1388
+16783	Curacao	Spaanse Water (Spanish Water)	2/5/20	12.063773	-68.85297798	SAMN45006343	8298
+16784	Curacao	Spaanse Water (Spanish Water)	2/5/20	12.063773	-68.85297798	SAMN45006344	3610
+16785	Curacao	Spaanse Water (Spanish Water)	2/5/20	12.063773	-68.85297798	SAMN45006345	3055
+16786	Curacao	Spaanse Water (Spanish Water)	2/5/20	12.063773	-68.85297798	SAMN45006346	3018
+16787	Curacao	Spaanse Water (Spanish Water)	2/5/20	12.063773	-68.85297798	SAMN45006347	28805
+16788	Curacao	Spaanse Water (Spanish Water)	2/5/20	12.063773	-68.85297798	SAMN45006348	14118
+16789	Curacao	Spaanse Water (Spanish Water)	2/5/20	12.063773	-68.85297798	SAMN45006349	6870
+16790	Curacao	Spaanse Water (Spanish Water)	2/5/20	12.063773	-68.85297798	SAMN45006350	2577
+16791	Curacao	Spaanse Water (Spanish Water)	2/5/20	12.063773	-68.85297798	SAMN45006351	3041
+16792	Curacao	Spaanse Water (Spanish Water)	2/5/20	12.063773	-68.85297798	SAMN45006352	2211
+16793	Curacao	Spaanse Water (Spanish Water)	2/5/20	12.063773	-68.85297798	SAMN45006353	15042
+16794	Curacao	Spaanse Water (Spanish Water)	2/5/20	12.063773	-68.85297798	SAMN45006354	1158
+16795	Curacao	Spaanse Water (Spanish Water)	2/5/20	12.063773	-68.85297798	SAMN45006355	478
+16797	Curacao	Spaanse Water (Spanish Water)	2/5/20	12.063773	-68.85297798	SAMN45006356	386
+16798	Curacao	Spaanse Water (Spanish Water)	2/5/20	12.063773	-68.85297798	SAMN45006357	219
+16799	Curacao	Spaanse Water (Spanish Water)	2/5/20	12.063773	-68.85297798	SAMN45006358	1728
+16800	Curacao	Spaanse Water (Spanish Water)	2/5/20	12.063773	-68.85297798	SAMN45006359	16007
+16801	Curacao	Spaanse Water (Spanish Water)	2/5/20	12.063773	-68.85297798	SAMN45006360	784
+16802	Curacao	Blauwbaai (Blue Bay)	2/5/20	12.13484399	-68.98649801	SAMN45006361	293
+16803	Curacao	Blauwbaai (Blue Bay)	2/5/20	12.13484399	-68.98649801	SAMN45006362	5656
+16804	Curacao	Blauwbaai (Blue Bay)	2/5/20	12.13484399	-68.98649801	SAMN45006363	3399
+16807	Curacao	Blauwbaai (Blue Bay)	2/5/20	12.13484399	-68.98649801	SAMN45006364	2729
+16808	Curacao	Blauwbaai (Blue Bay)	2/5/20	12.13484399	-68.98649801	SAMN45006365	142
+16809	Curacao	Blauwbaai (Blue Bay)	2/5/20	12.13484399	-68.98649801	SAMN45006366	496
+16810	Curacao	Blauwbaai (Blue Bay)	2/5/20	12.13484399	-68.98649801	SAMN45006367	1505
+16811	Curacao	Blauwbaai (Blue Bay)	2/5/20	12.13484399	-68.98649801	SAMN45006368	291
+16812	Curacao	Blauwbaai (Blue Bay)	2/5/20	12.13484399	-68.98649801	SAMN45006369	5340
+16815	Curacao	Blauwbaai (Blue Bay)	2/5/20	12.13484399	-68.98649801	SAMN45006370	1803
+16816	Curacao	Blauwbaai (Blue Bay)	2/5/20	12.13484399	-68.98649801	SAMN45006371	871
+16817	Curacao	Blauwbaai (Blue Bay)	2/5/20	12.13484399	-68.98649801	SAMN45006372	6493
+16818	Curacao	Blauwbaai (Blue Bay)	2/5/20	12.13484399	-68.98649801	SAMN45006373	259
+16819	Curacao	Blauwbaai (Blue Bay)	2/5/20	12.13484399	-68.98649801	SAMN45006374	6266
+16820	Curacao	Blauwbaai (Blue Bay)	2/5/20	12.13484399	-68.98649801	SAMN45006375	305
+16821	Curacao	Blauwbaai (Blue Bay)	2/5/20	12.13484399	-68.98649801	SAMN45006376	12903
+16822	Curacao	Coral Estate (Habitat)	2/24/20	12.19553333	-69.07886666	SAMN45006377	123
+16823	Curacao	Coral Estate (Habitat)	2/24/20	12.19553333	-69.07886666	SAMN45006378	19381
+16824	Curacao	Rif Sint Marie	2/24/20	12.19746703	-69.05033198	SAMN45006379	7567
+16826	Curacao	Rif Sint Marie	2/24/20	12.19746703	-69.05033198	SAMN45006380	11530
+16827	Curacao	Rif Sint Marie	2/24/20	12.19746703	-69.05033198	SAMN45006381	15121
+16828	Curacao	Rif Sint Marie	2/24/20	12.19746703	-69.05033198	SAMN45006382	25341
+17786	Curacao	Rif Sint Marie	2/24/20	12.19746703	-69.05033198	SAMN45006383	5922
+17787	Curacao	Rif Sint Marie	2/24/20	12.19746703	-69.05033198	SAMN45006384	16270
+17788	Curacao	Rif Sint Marie	2/24/20	12.19746703	-69.05033198	SAMN45006385	32905
+17789	Curacao	Rif Sint Marie	2/24/20	12.19746703	-69.05033198	SAMN45006386	4028
+17790	Curacao	Rif Sint Marie	2/24/20	12.19746703	-69.05033198	SAMN45006387	36238
+17791	Curacao	Rif Sint Marie	2/24/20	12.19746703	-69.05033198	SAMN45006388	2386
+17792	Curacao	Rif Sint Marie	2/24/20	12.19746703	-69.05033198	SAMN45006389	327
+17793	Curacao	Rif Sint Marie	2/24/20	12.19746703	-69.05033198	SAMN45006390	1244
+17794	Curacao	Rif Sint Marie	2/24/20	12.19746703	-69.05033198	SAMN45006391	4567
+17795	Curacao	Rif Sint Marie	2/24/20	12.19746703	-69.05033198	SAMN45006392	2728
+17796	Curacao	Rif Sint Marie	2/24/20	12.19746703	-69.05033198	SAMN45006393	6579
+17797	Curacao	Rif Sint Marie	2/24/20	12.19746703	-69.05033198	SAMN45006394	26
+17798	Curacao	Rif Sint Marie	2/24/20	12.19746703	-69.05033198	SAMN45006395	20714
+17799	Curacao	Rif Sint Marie	2/24/20	12.19746703	-69.05033198	SAMN45006396	14404
+17800	Curacao	Rif Sint Marie	2/24/20	12.19746703	-69.05033198	SAMN45006397	7708
+17801	Curacao	Watamula (Villa Westpunt)	2/24/20	12.38154	-69.16263398	SAMN45006398	5425
+17802	Curacao	Watamula (Villa Westpunt)	2/24/20	12.38154	-69.16263398	SAMN45006399	7735
+17803	Curacao	Watamula (Villa Westpunt)	2/24/20	12.38154	-69.16263398	SAMN45006400	8364
+17804	Curacao	Watamula (Villa Westpunt)	2/24/20	12.38154	-69.16263398	SAMN45006401	7594
+17805	Curacao	Watamula (Villa Westpunt)	2/24/20	12.38154	-69.16263398	SAMN45006402	1299
+17806	Curacao	Watamula (Villa Westpunt)	2/24/20	12.38154	-69.16263398	SAMN45006403	11823
+17807	Curacao	Watamula (Villa Westpunt)	2/24/20	12.38154	-69.16263398	SAMN45006404	398
+17809	Curacao	Watamula (Villa Westpunt)	2/24/20	12.38154	-69.16263398	SAMN45006405	1540
+17810	Curacao	Watamula (Villa Westpunt)	2/24/20	12.38154	-69.16263398	SAMN45006406	1279
+17811	Curacao	Watamula (Villa Westpunt)	2/24/20	12.38154	-69.16263398	SAMN45006407	144
+17812	Curacao	Watamula (Villa Westpunt)	2/24/20	12.38154	-69.16263398	SAMN45006408	5366
+17813	Curacao	Watamula (Villa Westpunt)	2/24/20	12.38154	-69.16263398	SAMN45006409	2626
+17814	Curacao	Watamula (Villa Westpunt)	2/24/20	12.38154	-69.16263398	SAMN45006410	2916
+17815	Curacao	Watamula (Villa Westpunt)	2/24/20	12.38154	-69.16263398	SAMN45006411	8814
+17816	Curacao	Watamula (Villa Westpunt)	2/24/20	12.38154	-69.16263398	SAMN45006412	15456
+17818	Curacao	Watamula (Villa Westpunt)	2/24/20	12.38154	-69.16263398	SAMN45006414	19
+17819	Curacao	Watamula (Villa Westpunt)	2/24/20	12.38154	-69.16263398	SAMN45006415	2672
+17820	Belize	Tobacco Caye	1/29/20	16.89735	-88.05903	SAMN45006416	1021
+17821	Belize	Tobacco Caye	1/29/20	16.89735	-88.05903	SAMN45006417	5550
+17822	Belize	Tobacco Caye	1/29/20	16.89735	-88.05903	SAMN45006418	1194
+17823	Belize	Tobacco Caye	1/29/20	16.89735	-88.05903	SAMN45006419	11429
+17824	Belize	Moho Caye	2/5/20	16.49891	-88.16842	SAMN45006420	1506
+17825	Belize	Laughing Bird Caye	2/6/20	16.443985	-88.198049	SAMN45006421	2387
+17826	Belize	Southwater Caye	2/24/20	16.81202	-88.07788	SAMN45006422	600
+17827	Belize	Southwater Caye	2/24/20	16.81202	-88.07788	SAMN45006423	5057
+17828	Belize	Southwater Caye	2/24/20	16.81202	-88.07788	SAMN45006424	4676
+17829	Belize	Southwater Caye	2/24/20	16.81202	-88.07788	SAMN45006425	6694
+17830	Belize	Southwater Caye	2/24/20	16.81202	-88.07788	SAMN45006426	30946
+17831	Belize	Southwater Caye	2/24/20	16.81202	-88.07788	SAMN45006427	1753
+17832	Belize	Southwater Caye	2/24/20	16.81202	-88.07788	SAMN45006428	7867
+17833	Belize	Southwater Caye	2/24/20	16.81202	-88.07788	SAMN45006429	8523
+17834	Belize	Southwater Caye	2/24/20	16.81202	-88.07788	SAMN45006430	1933
+17835	Belize	Turneffe Atoll Marine Reserve	2/25/20	17.3234	-87.861157	SAMN45006431	6764
+17836	Belize	Turneffe Atoll Marine Reserve	2/25/20	17.3234	-87.861157	SAMN45006432	1200
+17838	Belize	Turneffe Atoll Marine Reserve	2/25/20	17.3234	-87.861157	SAMN45006434	2201
+17839	Belize	Turneffe Atoll Marine Reserve	2/25/20	17.3234	-87.861157	SAMN45006435	1487
+17840	Belize	Turneffe Atoll Marine Reserve	2/25/20	17.3234	-87.861157	SAMN45006436	597
+17841	Belize	Turneffe Atoll Marine Reserve	2/25/20	17.3234	-87.861157	SAMN45006437	19131
+17842	Belize	Turneffe Atoll Marine Reserve	2/25/20	17.3234	-87.861157	SAMN45006438	2230
+17843	Belize	Turneffe Atoll Marine Reserve	2/25/20	17.3234	-87.861157	SAMN45006439	1476
+17844	Belize	Tobacco Caye	2/26/20	16.89735	-88.05903	SAMN45006440	16474
+17845	Belize	Tobacco Caye	missing	16.89735	-88.05903	SAMN45006441	28118
+17846	Belize	Laughing Bird Caye	3/4/20	16.443985	-88.198049	SAMN45006442	1673
+17847	Belize	Laughing Bird Caye	3/4/20	16.443985	-88.198049	SAMN45006443	18913
+17848	Belize	Laughing Bird Caye	3/4/20	16.443985	-88.198049	SAMN45006444	2213
+17849	Belize	Southwater Caye	3/5/20	16.81202	-88.07788	SAMN45006445	33572
+17850	Belize	Southwater Caye	3/5/20	16.81202	-88.07788	SAMN45006446	3962
+17851	Belize	Southwater Caye	3/5/20	16.81202	-88.07788	SAMN45006447	5911
+17852	Belize	missing	missing	missing	missing	SAMN45006448	7006
+17853	Belize	Southwater Caye	3/5/20	16.81202	-88.07788	SAMN45006449	60217
+17854	Belize	Carrie Bow	3/5/20	16.799967	-88.083053	SAMN45006450	5905
+17855	Belize	Carrie Bow	3/5/20	16.799967	-88.083053	SAMN45006451	7139
+17856	Belize	Carrie Bow	3/5/20	16.799967	-88.083053	SAMN45006452	13438
+17857	Belize	missing	missing	missing	missing	SAMN45006453	1618
+17858	Belize	Carrie Bow	3/5/20	16.799967	-88.083053	SAMN45006454	4984
+17860	Belize	Tuffy Hol Chan Marine Reserve	5/22/20	17.91437	-87.95539	SAMN45006455	2844
+17861	Belize	Hol Chan Marine Reserve Table	missing	17.84238	-87.9856	SAMN45006457	6161
+17862	Belize	Hol Chan Marine Reserve Table	missing	17.84238	-87.9856	SAMN45006458	4293
+17863	Belize	Bacalar Chico Marine Reserve	5/24/20	17.919226	-87.959062	SAMN45006459	2071
+17864	Belize	Bacalar Chico Marine Reserve	5/24/20	17.919226	-87.959062	SAMN45006460	13540
